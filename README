@@ -1,8 +1,10 @@
 OStrich scheduler plugin for SLURM > 2.6.x
 
-To install copy the whole branch into SLURM /src directory and follow the usual SLURM installation steps.
+To install copy the ostrich branch files into SLURM source directory and follow the usual SLURM installation steps.
 E.g:
-  ./configure --prefix=/home/user/test
+  cp -r ostrich_branch/* slurm-2-6-3/
+  cd slurm-2-6-3/
+  ./configure --prefix=/home/user/test --without-munge --with-ssl
   ./make install
 
 History: 
