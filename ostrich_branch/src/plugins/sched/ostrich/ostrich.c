@@ -864,26 +864,6 @@ extern void *ostrich_agent(void *args)
 			list_for_each(sched->users,
 				      (ListForF) _validate_user_campaigns,
 				      sched);
-
-// struct part_record *part_ptr;
-// int i, online_cpus = 0;
-// uint16_t alloc_cpus;
-//
-// part_ptr = find_part_record(sched->part_name);
-//
-// 	for (i = 0; i < node_record_count; i++)
-// 	if (bit_test(part_ptr->node_bitmap, i))
-// 	if (bit_test(avail_node_bitmap, i)) {
-//
-// select_g_select_nodeinfo_set_all();
-// select_g_select_nodeinfo_get(node_record_table_ptr[i].select_nodeinfo,
-// 	SELECT_NODEDATA_SUBCNT,
-// 	NODE_STATE_ALLOCATED,
-// 	&alloc_cpus);
-// online_cpus += alloc_cpus;
-// 	}
-// verbose("SCHED->ALLOC %d VS ONLINE %d", sched->allocated_cpus, online_cpus);
-
 			/* Distribute the virtual time from the previous period. */
 			if (sched->user_shares) {
 				// TODO max or avg or just one end - does it matter??
@@ -907,45 +887,11 @@ extern void *ostrich_agent(void *args)
 
 		unlock_slurmctld(all_locks);
 
-		// TODO CO JAKIS CZAS SPRWDZAC "SHARES" W BAZIE
-
-// 		> 		/*
-// > 		 * In defer mode, avoid triggering the scheduler logic
-// > 		 * for every epilog complete message.
-// > 		 * As one epilog message is sent from every node of each
-// > 		 * job at termination, the number of simultaneous schedule
-// > 		 * calls can be very high for large machine or large number
-// > 		 * of managed jobs.
-// > 		 */
-// > 		if (!defer_sched)
-// > 			(void) schedule(0);
-
-// > 			(void) schedule(schedule_cnt); /* has own locks */
-
-// 	job_iterator = list_iterator_create(job_list);
-// 	while ((job_q_ptr = (struct job_record *) list_next(job_iterator))) {
-// 		if (!IS_JOB_PENDING(job_q_ptr) || !job_q_ptr->details ||
-// 		    (job_q_ptr->part_ptr != job_ptr->part_ptr) ||
-// 		    (job_q_ptr->priority < job_ptr->priority) ||
-// 		    (job_q_ptr->job_id == job_ptr->job_id))
-// 			continue;
-// 		if (job_q_ptr->details->min_nodes == NO_VAL)
-// 			job_size_nodes = 1;
-// 		else
-// 			job_size_nodes = job_q_ptr->details->min_nodes;
-// 		if (job_q_ptr->details->min_cpus == NO_VAL)
-// 			job_size_cpus = 1;
-// 		else
-// 			job_size_cpus = job_q_ptr->details->min_nodes;
-// 		job_size_cpus = MAX(job_size_cpus,
-// 				    (job_size_nodes * part_cpus_per_node));
-//
 		END_TIMER2("OStrich: ostrich_agent");
 		debug2("OStrich: schedule iteration %s", TIME_STR);
 
  		if (DEBUG_FLAG)
 			schedule(0);    // force actual scheduling
-		// TODO schedule("PENDING IN PRIO" + QUEUE PARAM FROM CONFIG");
 	}
 	/* Cleanup. */
 	list_destroy(ostrich_sched_list);
